@@ -464,6 +464,87 @@ html, body {
   animation: spin 1s linear infinite;
 }
 
+/* Dashboard Stats Overview */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stats-card {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-app);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.stats-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+.stats-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.stats-icon.total {
+  background-color: var(--primary-50);
+  color: var(--primary-600);
+}
+
+.stats-icon.in-progress {
+  background-color: var(--status-in_progress-bg);
+  color: var(--status-in_progress-text);
+}
+
+.stats-icon.in-review {
+  background-color: var(--status-in_review-bg);
+  color: var(--status-in_review-text);
+}
+
+.stats-icon.urgent {
+  background-color: var(--priority-urgent-bg);
+  color: var(--priority-urgent-text);
+}
+
+.stats-icon.done {
+  background-color: var(--status-done-bg);
+  color: var(--status-done-text);
+}
+
+.stats-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stats-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stats-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
 /* View Tabs / Navigation */
 .view-tabs {
   display: flex;

@@ -3,6 +3,7 @@ import { useTheme } from './hooks/useTheme';
 import { useIssues } from './hooks/useIssues';
 import { useKeyboardShortcut } from './hooks/useKeyboardShortcut';
 import { Header } from './components/layout/Header';
+import { DashboardStats } from './components/layout/DashboardStats';
 import { ViewTabs } from './components/layout/ViewTabs';
 import { IssueFilters } from './components/issues/IssueFilters';
 import { IssueTable } from './components/issues/IssueTable';
@@ -97,6 +98,8 @@ export const App: React.FC = () => {
       />
 
       <main id="main-content" role="main">
+        <DashboardStats allIssues={allIssues} />
+
         <ViewTabs
           activeView={filters.view}
           onSelectView={setView}
