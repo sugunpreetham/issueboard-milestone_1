@@ -27,6 +27,8 @@ export interface Issue {
   labels: string[];
   createdAt: string;
   updatedAt: string;
+  dueDate?: string;
+  estimate?: number;
   activities: Activity[];
 }
 

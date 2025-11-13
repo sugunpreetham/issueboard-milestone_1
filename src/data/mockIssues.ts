@@ -1,4 +1,4 @@
-import { Issue, Assignee } from '../types/issue';
+import { Issue, Assignee, Status, Priority } from '../types/issue';
 
 export const ASSIGNEES: Assignee[] = [
   { id: 'user-1', name: 'Elena Rostova', email: 'elena.r@issueboard.internal', avatarColor: '#6366f1' },
@@ -11,6 +11,22 @@ export const ASSIGNEES: Assignee[] = [
 
 export const CURRENT_USER: Assignee = ASSIGNEES[0]; // Elena Rostova
 
+export const AVAILABLE_STATUSES: Status[] = [
+  'backlog',
+  'todo',
+  'in_progress',
+  'in_review',
+  'done',
+  'canceled',
+];
+
+export const AVAILABLE_PRIORITIES: Priority[] = [
+  'low',
+  'medium',
+  'high',
+  'urgent',
+];
+
 export const INITIAL_ISSUES: Issue[] = [
   {
     id: 'ISSUE-101',
@@ -22,6 +38,8 @@ export const INITIAL_ISSUES: Issue[] = [
     labels: ['security', 'auth', 'backend'],
     createdAt: '2026-08-10T09:15:00Z',
     updatedAt: '2026-08-17T14:20:00Z',
+    dueDate: '2026-08-20T18:00:00Z',
+    estimate: 5,
     activities: [
       { id: 'act-1', type: 'created', author: 'Elena Rostova', timestamp: '2026-08-10T09:15:00Z', details: 'Created issue' },
       { id: 'act-2', type: 'status_change', author: 'Elena Rostova', timestamp: '2026-08-12T11:00:00Z', details: 'Changed status from Todo to In Progress' },
@@ -38,6 +56,8 @@ export const INITIAL_ISSUES: Issue[] = [
     labels: ['ui/ux', 'frontend'],
     createdAt: '2026-08-08T14:30:00Z',
     updatedAt: '2026-08-16T18:45:00Z',
+    dueDate: '2026-08-16T18:00:00Z',
+    estimate: 3,
     activities: [
       { id: 'act-4', type: 'created', author: 'Marcus Vance', timestamp: '2026-08-08T14:30:00Z', details: 'Created issue' },
       { id: 'act-5', type: 'status_change', author: 'Marcus Vance', timestamp: '2026-08-16T18:45:00Z', details: 'Changed status to Done' }
