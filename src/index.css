@@ -870,6 +870,20 @@ html, body {
   letter-spacing: -0.025em;
 }
 
+.estimate-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface-hover);
+  color: var(--text-muted);
+  border: 1px solid var(--border-app);
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
 /* Issue Title & Description cell */
 .issue-title-cell {
   max-width: 420px;

@@ -69,7 +69,14 @@ export const IssueRow: React.FC<IssueRowProps> = ({
       </td>
 
       <td className="issue-title-cell">
-        <div className="issue-title">{issue.title}</div>
+        <div className="issue-title">
+          <span>{issue.title}</span>
+          {issue.estimate && (
+            <span className="estimate-badge" title={`${issue.estimate} story points`}>
+              {issue.estimate} pt
+            </span>
+          )}
+        </div>
         <div className="issue-description-snippet">{issue.description}</div>
       </td>
 

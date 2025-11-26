@@ -68,8 +68,13 @@ export const IssueCard: React.FC<IssueCardProps> = ({
       </div>
 
       <div className="card-body">
-        <h2 className="issue-title" style={{ fontSize: '0.95rem' }}>
-          {issue.title}
+        <h2 className="issue-title" style={{ fontSize: '0.95rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+          <span>{issue.title}</span>
+          {issue.estimate && (
+            <span className="estimate-badge" title={`${issue.estimate} story points`}>
+              {issue.estimate} pt
+            </span>
+          )}
         </h2>
         <p className="issue-description-snippet" style={{ WebkitLineClamp: 2 }}>
           {issue.description}
