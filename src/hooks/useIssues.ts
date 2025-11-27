@@ -144,13 +144,23 @@ export function useIssues() {
           }
         }
 
-        // 2. Search query matching ID, title, or description
+        // 2. Multi-token search query matching ID, title, description, labels, or assignee
         if (filters.searchQuery.trim()) {
-          const q = filters.searchQuery.toLowerCase().trim();
-          const matchId = issue.id.toLowerCase().includes(q);
-          const matchTitle = issue.title.toLowerCase().includes(q);
-          const matchDesc = issue.description.toLowerCase().includes(q);
-          if (!matchId && !matchTitle && !matchDesc) {
+          const queryTokens = filters.searchQuery.toLowerCase().trim().split(/\s+/);
+          const searchableText = [
+            issue.id,
+            issue.title,
+            issue.description,
+            ...issue.labels,
+            issue.assignee?.name || '',
+          ]
+            .join(' ')
+            .toLowerCase();
+
+          const matchesAllTokens = queryTokens.every((token) =>
+            searchableText.includes(token)
+          );
+          if (!matchesAllTokens) {
             return false;
           }
         }

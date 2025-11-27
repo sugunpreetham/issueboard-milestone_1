@@ -54,6 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               aria-label="Search issues"
+              aria-keyshortcuts="/"
               autoComplete="off"
               spellCheck="false"
             />
