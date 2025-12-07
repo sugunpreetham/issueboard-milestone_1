@@ -112,6 +112,7 @@ export const App: React.FC = () => {
           onResetFilters={resetFilters}
           filteredCount={issues.length}
           totalCount={allIssues.length}
+          allIssues={allIssues}
         />
 
         <BulkActionsBar

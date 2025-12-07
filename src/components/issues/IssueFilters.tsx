@@ -1,5 +1,5 @@
 import React from 'react';
-import { FilterState, Status, Priority } from '../../types/issue';
+import { FilterState, Status, Priority, Issue } from '../../types/issue';
 import { ASSIGNEES, AVAILABLE_LABELS } from '../../data/mockIssues';
 import { Icon } from '../common/Icon';
 
@@ -9,6 +9,7 @@ interface IssueFiltersProps {
   onResetFilters: () => void;
   filteredCount: number;
   totalCount: number;
+  allIssues?: Issue[];
 }
 
 export const IssueFilters: React.FC<IssueFiltersProps> = ({
@@ -17,7 +18,17 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
   onResetFilters,
   filteredCount,
   totalCount,
+  allIssues,
 }) => {
+  const statusCounts = {
+    backlog: allIssues ? allIssues.filter((i) => i.status === 'backlog').length : undefined,
+    todo: allIssues ? allIssues.filter((i) => i.status === 'todo').length : undefined,
+    in_progress: allIssues ? allIssues.filter((i) => i.status === 'in_progress').length : undefined,
+    in_review: allIssues ? allIssues.filter((i) => i.status === 'in_review').length : undefined,
+    done: allIssues ? allIssues.filter((i) => i.status === 'done').length : undefined,
+    canceled: allIssues ? allIssues.filter((i) => i.status === 'canceled').length : undefined,
+  };
+
   const hasActiveFilters =
     filters.status !== 'all' ||
     filters.priority !== 'all' ||
@@ -42,18 +53,22 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
           </label>
           <select
             id="filter-status"
-            className="filter-select"
+            className={`filter-select ${filters.status !== 'all' ? 'filter-active' : ''}`}
             value={filters.status}
             onChange={(e) => onFilterChange('status', e.target.value as Status | 'all')}
             aria-label="Filter by status"
           >
-            <option value="all">All Statuses</option>
-            <option value="backlog">Backlog</option>
-            <option value="todo">Todo</option>
-            <option value="in_progress">In Progress</option>
-            <option value="in_review">In Review</option>
-            <option value="done">Done</option>
-            <option value="canceled">Canceled</option>
+            <option value="all">All Statuses {totalCount > 0 ? `(${totalCount})` : ''}</option>
+            <optgroup label="Active Statuses">
+              <option value="backlog">Backlog {statusCounts.backlog !== undefined ? `(${statusCounts.backlog})` : ''}</option>
+              <option value="todo">Todo {statusCounts.todo !== undefined ? `(${statusCounts.todo})` : ''}</option>
+              <option value="in_progress">In Progress {statusCounts.in_progress !== undefined ? `(${statusCounts.in_progress})` : ''}</option>
+              <option value="in_review">In Review {statusCounts.in_review !== undefined ? `(${statusCounts.in_review})` : ''}</option>
+            </optgroup>
+            <optgroup label="Completed / Closed">
+              <option value="done">Done {statusCounts.done !== undefined ? `(${statusCounts.done})` : ''}</option>
+              <option value="canceled">Canceled {statusCounts.canceled !== undefined ? `(${statusCounts.canceled})` : ''}</option>
+            </optgroup>
           </select>
           <div className="filter-select-arrow" aria-hidden="true">
             <Icon name="chevron-down" size={14} />
