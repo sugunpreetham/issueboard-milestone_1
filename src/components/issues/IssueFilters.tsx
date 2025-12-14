@@ -29,6 +29,13 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
     canceled: allIssues ? allIssues.filter((i) => i.status === 'canceled').length : undefined,
   };
 
+  const priorityCounts = {
+    urgent: allIssues ? allIssues.filter((i) => i.priority === 'urgent').length : undefined,
+    high: allIssues ? allIssues.filter((i) => i.priority === 'high').length : undefined,
+    medium: allIssues ? allIssues.filter((i) => i.priority === 'medium').length : undefined,
+    low: allIssues ? allIssues.filter((i) => i.priority === 'low').length : undefined,
+  };
+
   const hasActiveFilters =
     filters.status !== 'all' ||
     filters.priority !== 'all' ||
@@ -82,16 +89,16 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
           </label>
           <select
             id="filter-priority"
-            className="filter-select"
+            className={`filter-select ${filters.priority !== 'all' ? 'filter-active' : ''}`}
             value={filters.priority}
             onChange={(e) => onFilterChange('priority', e.target.value as Priority | 'all')}
             aria-label="Filter by priority"
           >
-            <option value="all">All Priorities</option>
-            <option value="urgent">Urgent</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
+            <option value="all">All Priorities {totalCount > 0 ? `(${totalCount})` : ''}</option>
+            <option value="urgent">Urgent {priorityCounts.urgent !== undefined ? `(${priorityCounts.urgent})` : ''}</option>
+            <option value="high">High {priorityCounts.high !== undefined ? `(${priorityCounts.high})` : ''}</option>
+            <option value="medium">Medium {priorityCounts.medium !== undefined ? `(${priorityCounts.medium})` : ''}</option>
+            <option value="low">Low {priorityCounts.low !== undefined ? `(${priorityCounts.low})` : ''}</option>
           </select>
           <div className="filter-select-arrow" aria-hidden="true">
             <Icon name="chevron-down" size={14} />
