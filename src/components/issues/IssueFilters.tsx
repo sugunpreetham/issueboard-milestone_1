@@ -36,6 +36,12 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
     low: allIssues ? allIssues.filter((i) => i.priority === 'low').length : undefined,
   };
 
+  const unassignedCount = allIssues ? allIssues.filter((i) => i.assignee === null).length : undefined;
+
+  const getAssigneeCount = (id: string) => {
+    return allIssues ? allIssues.filter((i) => i.assignee?.id === id).length : undefined;
+  };
+
   const hasActiveFilters =
     filters.status !== 'all' ||
     filters.priority !== 'all' ||
@@ -112,18 +118,21 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
           </label>
           <select
             id="filter-assignee"
-            className="filter-select"
+            className={`filter-select ${filters.assigneeId !== 'all' ? 'filter-active' : ''}`}
             value={filters.assigneeId}
             onChange={(e) => onFilterChange('assigneeId', e.target.value)}
             aria-label="Filter by assignee"
           >
-            <option value="all">All Assignees</option>
-            <option value="unassigned">Unassigned</option>
-            {ASSIGNEES.map((assignee) => (
-              <option key={assignee.id} value={assignee.id}>
-                {assignee.name}
-              </option>
-            ))}
+            <option value="all">All Assignees {totalCount > 0 ? `(${totalCount})` : ''}</option>
+            <option value="unassigned">Unassigned {unassignedCount !== undefined ? `(${unassignedCount})` : ''}</option>
+            {ASSIGNEES.map((assignee) => {
+              const count = getAssigneeCount(assignee.id);
+              return (
+                <option key={assignee.id} value={assignee.id}>
+                  {assignee.name} {count !== undefined ? `(${count})` : ''}
+                </option>
+              );
+            })}
           </select>
           <div className="filter-select-arrow" aria-hidden="true">
             <Icon name="chevron-down" size={14} />
