@@ -146,7 +146,7 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
           </label>
           <select
             id="filter-label"
-            className="filter-select"
+            className={`filter-select ${filters.label !== 'all' ? 'filter-active' : ''}`}
             value={filters.label}
             onChange={(e) => onFilterChange('label', e.target.value)}
             aria-label="Filter by label"
@@ -182,6 +182,81 @@ export const IssueFilters: React.FC<IssueFiltersProps> = ({
       >
         Showing <strong>{filteredCount}</strong> of <strong>{totalCount}</strong> issues
       </div>
+
+      {hasActiveFilters && (
+        <div className="active-filter-chips" style={{ width: '100%', marginTop: '0.5rem' }} aria-label="Active filter chips">
+          {filters.searchQuery.trim() && (
+            <span className="filter-chip">
+              <span>Search: "{filters.searchQuery}"</span>
+              <button
+                type="button"
+                className="filter-chip-remove"
+                onClick={() => onFilterChange('searchQuery', '')}
+                aria-label="Remove search filter"
+              >
+                <Icon name="x" size={12} />
+              </button>
+            </span>
+          )}
+          {filters.status !== 'all' && (
+            <span className="filter-chip">
+              <span>Status: {filters.status.replace('_', ' ')}</span>
+              <button
+                type="button"
+                className="filter-chip-remove"
+                onClick={() => onFilterChange('status', 'all')}
+                aria-label="Remove status filter"
+              >
+                <Icon name="x" size={12} />
+              </button>
+            </span>
+          )}
+          {filters.priority !== 'all' && (
+            <span className="filter-chip">
+              <span>Priority: {filters.priority}</span>
+              <button
+                type="button"
+                className="filter-chip-remove"
+                onClick={() => onFilterChange('priority', 'all')}
+                aria-label="Remove priority filter"
+              >
+                <Icon name="x" size={12} />
+              </button>
+            </span>
+          )}
+          {filters.assigneeId !== 'all' && (
+            <span className="filter-chip">
+              <span>
+                Assignee:{' '}
+                {filters.assigneeId === 'unassigned'
+                  ? 'Unassigned'
+                  : ASSIGNEES.find((a) => a.id === filters.assigneeId)?.name || filters.assigneeId}
+              </span>
+              <button
+                type="button"
+                className="filter-chip-remove"
+                onClick={() => onFilterChange('assigneeId', 'all')}
+                aria-label="Remove assignee filter"
+              >
+                <Icon name="x" size={12} />
+              </button>
+            </span>
+          )}
+          {filters.label !== 'all' && (
+            <span className="filter-chip">
+              <span>Label: {filters.label}</span>
+              <button
+                type="button"
+                className="filter-chip-remove"
+                onClick={() => onFilterChange('label', 'all')}
+                aria-label="Remove label filter"
+              >
+                <Icon name="x" size={12} />
+              </button>
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };
