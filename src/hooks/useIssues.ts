@@ -206,6 +206,10 @@ export function useIssues() {
           comparison = a.id.localeCompare(b.id, undefined, { numeric: true });
         } else if (field === 'title') {
           comparison = a.title.localeCompare(b.title);
+        } else if (field === 'assignee') {
+          const nameA = a.assignee?.name || 'zzzz';
+          const nameB = b.assignee?.name || 'zzzz';
+          comparison = nameA.localeCompare(nameB);
         }
 
         return direction === 'asc' ? comparison : -comparison;

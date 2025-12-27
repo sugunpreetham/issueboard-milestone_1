@@ -43,7 +43,7 @@ export interface FilterState {
   view: ViewTabType;
 }
 
-export type SortField = 'updatedAt' | 'priority' | 'status' | 'id' | 'title';
+export type SortField = 'updatedAt' | 'priority' | 'status' | 'id' | 'title' | 'assignee';
 export type SortDirection = 'asc' | 'desc';
 
 export interface SortConfig {

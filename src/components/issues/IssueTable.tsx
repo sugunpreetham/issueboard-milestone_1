@@ -76,6 +76,14 @@ export const IssueTable: React.FC<IssueTableProps> = ({
             <th
               className="th-sortable"
               onClick={() => onSort('id')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSort('id');
+                }
+              }}
+              tabIndex={0}
+              role="columnheader"
               aria-sort={getAriaSort('id')}
               style={{ width: '100px' }}
             >
@@ -88,6 +96,14 @@ export const IssueTable: React.FC<IssueTableProps> = ({
             <th
               className="th-sortable"
               onClick={() => onSort('title')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSort('title');
+                }
+              }}
+              tabIndex={0}
+              role="columnheader"
               aria-sort={getAriaSort('title')}
             >
               <div className="th-content">
@@ -99,6 +115,14 @@ export const IssueTable: React.FC<IssueTableProps> = ({
             <th
               className="th-sortable"
               onClick={() => onSort('status')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSort('status');
+                }
+              }}
+              tabIndex={0}
+              role="columnheader"
               aria-sort={getAriaSort('status')}
               style={{ width: '130px' }}
             >
@@ -111,6 +135,14 @@ export const IssueTable: React.FC<IssueTableProps> = ({
             <th
               className="th-sortable"
               onClick={() => onSort('priority')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSort('priority');
+                }
+              }}
+              tabIndex={0}
+              role="columnheader"
               aria-sort={getAriaSort('priority')}
               style={{ width: '110px' }}
             >
@@ -120,12 +152,39 @@ export const IssueTable: React.FC<IssueTableProps> = ({
               </div>
             </th>
 
-            <th style={{ width: '160px' }}>Assignee</th>
+            <th
+              className="th-sortable"
+              onClick={() => onSort('assignee')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSort('assignee');
+                }
+              }}
+              tabIndex={0}
+              role="columnheader"
+              aria-sort={getAriaSort('assignee')}
+              style={{ width: '160px' }}
+            >
+              <div className="th-content">
+                <span>Assignee</span>
+                {renderSortIndicator('assignee')}
+              </div>
+            </th>
+
             <th style={{ maxWidth: '180px' }}>Labels</th>
 
             <th
               className="th-sortable"
               onClick={() => onSort('updatedAt')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSort('updatedAt');
+                }
+              }}
+              tabIndex={0}
+              role="columnheader"
               aria-sort={getAriaSort('updatedAt')}
               style={{ width: '110px' }}
             >
