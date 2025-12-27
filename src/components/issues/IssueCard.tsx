@@ -30,7 +30,13 @@ export const IssueCard: React.FC<IssueCardProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'x' || e.key === 'X') {
+      const target = e.target as HTMLElement;
+      if (!target.closest('input') && !target.closest('textarea')) {
+        e.preventDefault();
+        onToggleSelect(issue.id);
+      }
+    } else if (e.key === 'Enter' || e.key === ' ') {
       const target = e.target as HTMLElement;
       if (!target.closest('input[type="checkbox"]') && !target.closest('button')) {
         e.preventDefault();

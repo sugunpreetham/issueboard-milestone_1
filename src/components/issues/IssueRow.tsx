@@ -31,7 +31,13 @@ export const IssueRow: React.FC<IssueRowProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'x' || e.key === 'X') {
+      const target = e.target as HTMLElement;
+      if (!target.closest('input') && !target.closest('textarea')) {
+        e.preventDefault();
+        onToggleSelect(issue.id);
+      }
+    } else if (e.key === 'Enter' || e.key === ' ') {
       // If pressing Enter/Space on row (not directly on input)
       const target = e.target as HTMLElement;
       if (!target.closest('input[type="checkbox"]') && !target.closest('button')) {

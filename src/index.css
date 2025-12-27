@@ -854,10 +854,12 @@ html, body {
 
 .issue-row.selected {
   background-color: var(--primary-50);
+  box-shadow: inset 3px 0 0 var(--primary-600);
 }
 
 [data-theme='dark'] .issue-row.selected {
   background-color: rgba(99, 102, 241, 0.12);
+  box-shadow: inset 3px 0 0 var(--primary-500);
 }
 
 .issue-row:last-child td {
