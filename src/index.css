@@ -1046,7 +1046,28 @@ html, body {
   white-space: nowrap;
 }
 
-/* Mobile Cards View (hidden on desktop) */
+/* Mobile Selection & Cards View */
+.mobile-selection-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem;
+  margin-bottom: 0.75rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-app);
+  border-radius: var(--radius-md);
+}
+
+.mobile-select-all-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
 .mobile-card-list {
   display: none;
   flex-direction: column;
@@ -1374,6 +1395,10 @@ html, body {
   }
 
   .mobile-card-list {
+    display: flex;
+  }
+
+  .mobile-selection-header {
     display: flex;
   }
 

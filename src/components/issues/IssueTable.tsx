@@ -65,6 +65,7 @@ export const IssueTable: React.FC<IssueTableProps> = ({
                 className="checkbox-custom"
                 checked={isAllSelected}
                 onChange={onToggleSelectAll}
+                aria-checked={isIndeterminate ? 'mixed' : isAllSelected}
                 aria-label={
                   isAllSelected
                     ? 'Deselect all visible issues'
