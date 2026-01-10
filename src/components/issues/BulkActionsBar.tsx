@@ -1,5 +1,5 @@
 import React from 'react';
-import { Status, Assignee } from '../../types/issue';
+import { Status, Priority, Assignee } from '../../types/issue';
 import { ASSIGNEES } from '../../data/mockIssues';
 import { Button } from '../common/Button';
 import { Icon } from '../common/Icon';
@@ -9,6 +9,7 @@ interface BulkActionsBarProps {
   onClearSelection: () => void;
   onBulkUpdateStatus: (status: Status) => void;
   onBulkUpdateAssignee: (assignee: Assignee | null) => void;
+  onBulkUpdatePriority?: (priority: Priority) => void;
 }
 
 export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
@@ -16,6 +17,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   onClearSelection,
   onBulkUpdateStatus,
   onBulkUpdateAssignee,
+  onBulkUpdatePriority,
 }) => {
   if (selectedCount === 0) return null;
 
@@ -64,6 +66,38 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
             <Icon name="chevron-down" size={14} />
           </div>
         </div>
+
+        {/* Bulk Priority Select */}
+        {onBulkUpdatePriority && (
+          <div className="filter-select-wrapper">
+            <label htmlFor="bulk-priority-select" className="sr-only">
+              Change priority for selected issues
+            </label>
+            <select
+              id="bulk-priority-select"
+              className="filter-select"
+              defaultValue=""
+              onChange={(e) => {
+                if (e.target.value) {
+                  onBulkUpdatePriority(e.target.value as Priority);
+                  e.target.value = '';
+                }
+              }}
+              aria-label="Change priority for selected issues"
+            >
+              <option value="" disabled>
+                Set Priority...
+              </option>
+              <option value="urgent">Urgent</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+            <div className="filter-select-arrow" aria-hidden="true">
+              <Icon name="chevron-down" size={14} />
+            </div>
+          </div>
+        )}
 
         {/* Bulk Assignee Select */}
         <div className="filter-select-wrapper">

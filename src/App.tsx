@@ -37,6 +37,7 @@ export const App: React.FC = () => {
     updateIssue,
     bulkUpdateStatus,
     bulkUpdateAssignee,
+    bulkUpdatePriority,
   } = useIssues();
 
   const [activeModalIssue, setActiveModalIssue] = useState<Issue | null>(null);
@@ -120,6 +121,7 @@ export const App: React.FC = () => {
           onClearSelection={clearSelection}
           onBulkUpdateStatus={bulkUpdateStatus}
           onBulkUpdateAssignee={bulkUpdateAssignee}
+          onBulkUpdatePriority={bulkUpdatePriority}
         />
 
         {error ? (

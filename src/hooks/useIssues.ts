@@ -383,6 +383,37 @@ export function useIssues() {
     [selectedIds]
   );
 
+  // Bulk priority update
+  const bulkUpdatePriority = useCallback(
+    (newPriority: Priority) => {
+      if (selectedIds.size === 0) return;
+
+      const now = new Date().toISOString();
+      setIssues((prev) =>
+        prev.map((issue) => {
+          if (!selectedIds.has(issue.id)) return issue;
+
+          return {
+            ...issue,
+            priority: newPriority,
+            updatedAt: now,
+            activities: [
+              {
+                id: `act-${Date.now()}-${issue.id}-priority`,
+                type: 'priority_change',
+                author: CURRENT_USER.name,
+                timestamp: now,
+                details: `Batch updated priority to ${newPriority}`,
+              },
+              ...issue.activities,
+            ],
+          };
+        })
+      );
+    },
+    [selectedIds]
+  );
+
   return {
     allIssues: issues,
     issues: filteredAndSortedIssues,
@@ -402,5 +433,6 @@ export function useIssues() {
     updateIssue,
     bulkUpdateStatus,
     bulkUpdateAssignee,
+    bulkUpdatePriority,
   };
 }
