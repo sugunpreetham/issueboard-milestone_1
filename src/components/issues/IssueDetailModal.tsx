@@ -92,6 +92,16 @@ export const IssueDetailModal: React.FC<IssueDetailModalProps> = ({
               <span className="date-cell">
                 Created on {new Date(issue.createdAt).toLocaleDateString()}
               </span>
+              {issue.estimate && (
+                <span className="estimate-badge" title={`${issue.estimate} story points`}>
+                  {issue.estimate} pt
+                </span>
+              )}
+              {issue.dueDate && (
+                <span className="date-cell" title="Target completion date">
+                  • Due {new Date(issue.dueDate).toLocaleDateString()}
+                </span>
+              )}
             </div>
             <h2 id="modal-issue-title" className="modal-title">
               {issue.title}
