@@ -34,6 +34,7 @@ export function useFocusTrap({ isOpen, onClose, initialFocusRef }: UseFocusTrapO
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
+        e.stopPropagation();
         onClose();
         return;
       }
@@ -46,6 +47,16 @@ export function useFocusTrap({ isOpen, onClose, initialFocusRef }: UseFocusTrapO
 
         const firstElement = focusable[0];
         const lastElement = focusable[focusable.length - 1];
+
+        if (!container.contains(document.activeElement)) {
+          e.preventDefault();
+          if (e.shiftKey) {
+            lastElement.focus();
+          } else {
+            firstElement.focus();
+          }
+          return;
+        }
 
         if (e.shiftKey) {
           if (document.activeElement === firstElement) {
