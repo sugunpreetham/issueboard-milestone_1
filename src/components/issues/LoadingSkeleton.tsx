@@ -5,6 +5,8 @@ export const LoadingSkeleton: React.FC = () => {
     <div
       className="table-wrapper"
       role="status"
+      aria-busy="true"
+      aria-live="polite"
       aria-label="Loading issues data..."
     >
       <div className="sr-only">Loading issue list, please wait...</div>
@@ -92,6 +94,35 @@ export const LoadingSkeleton: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Mobile Card Skeletons */}
+      <div className="mobile-card-list">
+        {Array.from({ length: 4 }).map((_, idx) => (
+          <div key={idx} className="issue-card" style={{ opacity: 0.8 }}>
+            <div className="card-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                <div className="skeleton-box" style={{ width: 18, height: 18 }} />
+                <div className="skeleton-box" style={{ width: 65, height: 16 }} />
+              </div>
+              <div style={{ display: 'flex', gap: '0.35rem' }}>
+                <div className="skeleton-box" style={{ width: 60, height: 20, borderRadius: 9999 }} />
+                <div className="skeleton-box" style={{ width: 70, height: 20, borderRadius: 9999 }} />
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="skeleton-box" style={{ width: '80%', height: 16, marginBottom: 8 }} />
+              <div className="skeleton-box" style={{ width: '95%', height: 12 }} />
+            </div>
+            <div className="card-footer">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div className="skeleton-box" style={{ width: 22, height: 22, borderRadius: 9999 }} />
+                <div className="skeleton-box" style={{ width: 80, height: 12 }} />
+              </div>
+              <div className="skeleton-box" style={{ width: 55, height: 12 }} />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
