@@ -14,7 +14,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   return (
     <div className="empty-state" role="status" aria-label="No issues found">
       <div className="empty-icon" aria-hidden="true">
-        <Icon name="search" size={48} />
+        <Icon name={hasFilters ? 'search' : 'layers'} size={48} />
       </div>
       <h2 className="empty-title">
         {hasFilters ? 'No matching issues found' : 'No issues in this view'}
@@ -25,8 +25,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           : 'There are currently no issues in this status category.'}
       </p>
       {hasFilters && (
-        <Button variant="primary" onClick={onResetFilters}>
-          Clear all filters
+        <Button variant="primary" onClick={onResetFilters} aria-label="Clear all filters">
+          <Icon name="x" size={14} />
+          <span>Clear all filters</span>
         </Button>
       )}
     </div>
