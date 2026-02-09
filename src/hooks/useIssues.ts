@@ -48,6 +48,7 @@ export function useIssues() {
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [sortConfig, setSortConfig] = useState<SortConfig>(DEFAULT_SORT);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
 
   // Simulate initial async fetch with cancellation safety
   useEffect(() => {
@@ -58,6 +59,7 @@ export function useIssues() {
     const timer = setTimeout(() => {
       if (isMounted) {
         setIssues(INITIAL_ISSUES);
+        setLastSyncedAt(new Date().toISOString());
         setIsLoading(false);
       }
     }, 300);
@@ -255,6 +257,7 @@ export function useIssues() {
           reject(new Error('Network error'));
         } else {
           setIssues(INITIAL_ISSUES);
+          setLastSyncedAt(new Date().toISOString());
           setIsLoading(false);
           resolve();
         }
@@ -422,6 +425,7 @@ export function useIssues() {
     filters,
     sortConfig,
     selectedIds,
+    lastSyncedAt,
     setFilter,
     resetFilters,
     setView,

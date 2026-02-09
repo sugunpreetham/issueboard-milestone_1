@@ -26,6 +26,7 @@ export const App: React.FC = () => {
     filters,
     sortConfig,
     selectedIds,
+    lastSyncedAt,
     setFilter,
     resetFilters,
     setView,
@@ -96,6 +97,7 @@ export const App: React.FC = () => {
         onRefresh={() => refreshIssues(false)}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
         totalIssuesCount={allIssues.length}
+        lastSyncedAt={lastSyncedAt}
       />
 
       <main id="main-content" role="main">

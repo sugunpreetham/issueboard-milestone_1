@@ -11,6 +11,7 @@ interface HeaderProps {
   onRefresh: () => void;
   onOpenShortcuts?: () => void;
   totalIssuesCount: number;
+  lastSyncedAt?: string | null;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -22,8 +23,13 @@ export const Header: React.FC<HeaderProps> = ({
   onRefresh,
   onOpenShortcuts,
   totalIssuesCount,
+  lastSyncedAt,
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const syncTimeLabel = lastSyncedAt
+    ? ` • Synced ${new Date(lastSyncedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+    : '';
 
   return (
     <header className="app-header" role="banner">
@@ -35,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="brand-info">
             <h1 className="brand-title">IssueBoard</h1>
             <span className="brand-subtitle">
-              {totalIssuesCount} {totalIssuesCount === 1 ? 'issue' : 'issues'} tracked
+              {totalIssuesCount} {totalIssuesCount === 1 ? 'issue' : 'issues'} tracked{syncTimeLabel}
             </span>
           </div>
         </div>
