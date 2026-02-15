@@ -236,6 +236,14 @@ export function useIssues() {
   }, [filteredAndSortedIssues]);
 
   const latestRequestIdRef = useRef<number>(0);
+  const isMountedRef = useRef<boolean>(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // Asynchronous refresh with stale response race condition handling
   const refreshIssues = useCallback((shouldFail = false) => {
@@ -245,6 +253,11 @@ export function useIssues() {
 
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
+        if (!isMountedRef.current) {
+          resolve();
+          return;
+        }
+
         // If a newer refresh request was started, ignore this stale response
         if (currentRequestId !== latestRequestIdRef.current) {
           resolve();
