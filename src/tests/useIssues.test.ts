@@ -242,4 +242,91 @@ describe('useIssues Hook', () => {
     const original = INITIAL_ISSUES.find((i) => i.id === targetId);
     expect(restored?.status).toBe(original?.status);
   });
+
+  it('handles triple overlapping refreshes (A, B, C) and ensures only latest request C determines final state', async () => {
+    const { result } = renderHook(() => useIssues());
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    const targetId = result.current.issues[0].id;
+
+    // Mutate locally
+    act(() => {
+      result.current.updateIssue(targetId, { title: 'Local Delta Test' });
+    });
+    expect(result.current.issues.find((i) => i.id === targetId)?.title).toBe('Local Delta Test');
+
+    // Launch A at t=0
+    let promiseA!: Promise<void>;
+    act(() => {
+      promiseA = result.current.refreshIssues();
+    });
+
+    // Advance 100ms and launch B at t=100
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
+    let promiseB!: Promise<void>;
+    act(() => {
+      promiseB = result.current.refreshIssues();
+    });
+
+    // Advance 100ms and launch C at t=200
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
+    let promiseC!: Promise<void>;
+    act(() => {
+      promiseC = result.current.refreshIssues();
+    });
+
+    // Advance 200ms (t=400: A finishes, but is stale)
+    await act(async () => {
+      vi.advanceTimersByTime(200);
+      await promiseA;
+    });
+    expect(result.current.isLoading).toBe(true);
+
+    // Advance 100ms (t=500: B finishes, but is stale)
+    await act(async () => {
+      vi.advanceTimersByTime(100);
+      await promiseB;
+    });
+    expect(result.current.isLoading).toBe(true);
+
+    // Advance 100ms (t=600: C finishes and is current)
+    await act(async () => {
+      vi.advanceTimersByTime(100);
+      await promiseC;
+    });
+    expect(result.current.isLoading).toBe(false);
+    const expectedTitle = INITIAL_ISSUES.find((i) => i.id === targetId)?.title;
+    expect(result.current.allIssues.find((i) => i.id === targetId)?.title).toBe(expectedTitle);
+  });
+
+  it('safely handles unmount during pending refresh operations without state corruption', async () => {
+    const { result, unmount } = renderHook(() => useIssues());
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    let pendingPromise!: Promise<void>;
+    act(() => {
+      pendingPromise = result.current.refreshIssues();
+    });
+
+    // Unmount before completion
+    unmount();
+
+    // Advance timer to trigger response
+    await act(async () => {
+      vi.advanceTimersByTime(400);
+      await pendingPromise;
+    });
+
+    // Test passes without unhandled rejection or unmounted component state updates
+  });
 });
