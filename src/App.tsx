@@ -88,6 +88,9 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-container">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <Header
         searchQuery={filters.searchQuery}
         onSearchChange={(q) => setFilter('searchQuery', q)}
