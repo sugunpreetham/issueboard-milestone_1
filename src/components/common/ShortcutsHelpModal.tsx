@@ -18,6 +18,7 @@ export const ShortcutsHelpModal: React.FC<ShortcutsHelpModalProps> = ({
 
   const shortcuts = [
     { key: '/', description: 'Focus global search input' },
+    { key: 'j / k', description: 'Navigate to next / previous issue' },
     { key: 'x', description: 'Toggle selection for focused issue' },
     { key: 'Escape', description: 'Close modals or deselect active issues' },
     { key: 'Tab / Shift+Tab', description: 'Navigate through interactive elements' },

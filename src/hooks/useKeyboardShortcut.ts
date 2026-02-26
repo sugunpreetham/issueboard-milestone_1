@@ -34,6 +34,24 @@ export function useKeyboardShortcut({
       } else if (e.key === 'Escape' && !isModalOpen && hasSelection) {
         e.preventDefault();
         onClearSelection();
+      } else if ((e.key === 'j' || e.key === 'J') && !isInput && !isModalOpen) {
+        e.preventDefault();
+        const rows = Array.from(document.querySelectorAll<HTMLElement>('.issue-row, .issue-card'));
+        if (rows.length === 0) return;
+        const currentIndex = rows.findIndex(
+          (row) => row === document.activeElement || row.contains(document.activeElement)
+        );
+        const nextIndex = currentIndex < rows.length - 1 ? currentIndex + 1 : 0;
+        rows[nextIndex]?.focus();
+      } else if ((e.key === 'k' || e.key === 'K') && !isInput && !isModalOpen) {
+        e.preventDefault();
+        const rows = Array.from(document.querySelectorAll<HTMLElement>('.issue-row, .issue-card'));
+        if (rows.length === 0) return;
+        const currentIndex = rows.findIndex(
+          (row) => row === document.activeElement || row.contains(document.activeElement)
+        );
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : rows.length - 1;
+        rows[prevIndex]?.focus();
       }
     };
 
