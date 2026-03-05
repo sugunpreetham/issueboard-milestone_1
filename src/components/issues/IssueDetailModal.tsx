@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Issue, Status, Priority } from '../../types/issue';
 import { ASSIGNEES } from '../../data/mockIssues';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
@@ -23,6 +23,8 @@ export const IssueDetailModal: React.FC<IssueDetailModalProps> = ({
   onUpdateIssue,
 }) => {
   const containerRef = useFocusTrap({ isOpen, onClose });
+  const editBtnRef = useRef<HTMLButtonElement>(null);
+  const descriptionTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [currentStatus, setCurrentStatus] = useState<Status>('todo');
   const [currentPriority, setCurrentPriority] = useState<Priority>('medium');
@@ -227,9 +229,13 @@ export const IssueDetailModal: React.FC<IssueDetailModalProps> = ({
               </h3>
               {!isEditingDescription ? (
                 <Button
+                  ref={editBtnRef}
                   variant="ghost"
                   size="sm"
-                  onClick={() => setIsEditingDescription(true)}
+                  onClick={() => {
+                    setIsEditingDescription(true);
+                    setTimeout(() => descriptionTextareaRef.current?.focus(), 0);
+                  }}
                   aria-label="Edit issue description"
                 >
                   Edit description
@@ -242,6 +248,7 @@ export const IssueDetailModal: React.FC<IssueDetailModalProps> = ({
                     onClick={() => {
                       setDescriptionText(issue.description);
                       setIsEditingDescription(false);
+                      setTimeout(() => editBtnRef.current?.focus(), 0);
                     }}
                   >
                     Cancel
@@ -249,7 +256,10 @@ export const IssueDetailModal: React.FC<IssueDetailModalProps> = ({
                   <Button
                     variant="primary"
                     size="sm"
-                    onClick={handleSaveDescription}
+                    onClick={() => {
+                      handleSaveDescription();
+                      setTimeout(() => editBtnRef.current?.focus(), 0);
+                    }}
                   >
                     Save
                   </Button>
@@ -263,6 +273,7 @@ export const IssueDetailModal: React.FC<IssueDetailModalProps> = ({
               </div>
             ) : (
               <textarea
+                ref={descriptionTextareaRef}
                 className="modal-description-box"
                 style={{
                   width: '100%',
