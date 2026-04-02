@@ -22,12 +22,34 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
     try {
       localStorage.setItem(THEME_STORAGE_KEY, theme);
     } catch {
       // Ignore storage errors
     }
   }, [theme]);
+
+  // Listen for system theme changes if user has not stored explicit preference
+  useEffect(() => {
+    if (!window.matchMedia) return;
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      try {
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        if (!savedTheme) {
+          setThemeState(e.matches ? 'dark' : 'light');
+        }
+      } catch {
+        // Ignore storage errors
+      }
+    };
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, []);
 
   const toggleTheme = useCallback(() => {
     setThemeState((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
