@@ -134,4 +134,46 @@ describe('Issue Filters and Search', () => {
     expect(screen.getAllByText('Add CSV export for filtered issue datasets')[0]).toBeInTheDocument();
     expect(screen.queryByText('Fix race condition in OAuth2 token refresh workflow')).not.toBeInTheDocument();
   });
+
+  it('combines multiple filters simultaneously and allows removing individual filter chips', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const statusSelect = screen.getByRole('combobox', { name: /Filter by status/i });
+    await user.selectOptions(statusSelect, 'in_progress');
+
+    const prioritySelect = screen.getByRole('combobox', { name: /Filter by priority/i });
+    await user.selectOptions(prioritySelect, 'urgent');
+
+    // Both chips should appear
+    expect(screen.getByRole('button', { name: /Remove status filter/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Remove priority filter/i })).toBeInTheDocument();
+
+    // Remove status chip individually
+    await user.click(screen.getByRole('button', { name: /Remove status filter/i }));
+    expect(statusSelect).toHaveValue('all');
+    expect(prioritySelect).toHaveValue('urgent');
+  });
+
+  it('filters issues by label and removes label filter via chip', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const labelSelect = screen.getByRole('combobox', { name: /Filter by label/i });
+    await user.selectOptions(labelSelect, 'security');
+
+    expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Remove label filter/i })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Remove label filter/i }));
+    expect(labelSelect).toHaveValue('all');
+  });
 });
