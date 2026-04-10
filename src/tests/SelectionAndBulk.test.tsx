@@ -112,4 +112,58 @@ describe('Selection and Bulk Actions', () => {
     expect(screen.queryByRole('region', { name: /Bulk actions for selected issues/i })).not.toBeInTheDocument();
     expect(checkbox).not.toBeChecked();
   });
+
+  it('toggles selection with keyboard "x" shortcut on focused issue row', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const issueRow = screen.getAllByRole('row', { name: /Issue ISSUE-101/i })[0];
+    issueRow.focus();
+    await user.keyboard('x');
+
+    expect(screen.getAllByRole('checkbox', { name: /Select issue ISSUE-101/i })[0]).toBeChecked();
+    expect(screen.getByRole('region', { name: /Bulk actions for selected issues/i })).toBeInTheDocument();
+
+    // Toggle off with x
+    await user.keyboard('x');
+    expect(screen.getAllByRole('checkbox', { name: /Select issue ISSUE-101/i })[0]).not.toBeChecked();
+  });
+
+  it('performs bulk priority update on multiple selected issues', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const checkbox1 = screen.getAllByRole('checkbox', { name: /Select issue ISSUE-101/i })[0];
+    await user.click(checkbox1);
+
+    const bulkPrioritySelect = screen.getByRole('combobox', { name: /Change priority for selected issues/i });
+    await user.selectOptions(bulkPrioritySelect, 'low');
+
+    const issue101Row = screen.getAllByRole('row', { name: /Issue ISSUE-101.*Priority: low/i })[0];
+    expect(issue101Row).toBeInTheDocument();
+  });
+
+  it('clears selection when Escape key is pressed outside of modal', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const checkbox = screen.getAllByRole('checkbox', { name: /Select issue ISSUE-101/i })[0];
+    await user.click(checkbox);
+    expect(screen.getByRole('region', { name: /Bulk actions for selected issues/i })).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('region', { name: /Bulk actions for selected issues/i })).not.toBeInTheDocument();
+  });
 });
