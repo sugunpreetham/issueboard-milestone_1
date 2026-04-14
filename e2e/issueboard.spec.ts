@@ -75,4 +75,39 @@ test.describe('IssueBoard E2E User Journeys', () => {
     await page.keyboard.press('Slash');
     await expect(searchInput).toBeFocused();
   });
+
+  test('opens and closes keyboard shortcuts modal using question mark (?) key', async ({ page }) => {
+    await page.locator('.brand-title').click();
+    await page.keyboard.press('?');
+
+    const shortcutsModal = page.getByRole('dialog', { name: /Keyboard Shortcuts/i });
+    await expect(shortcutsModal).toBeVisible();
+
+    const gotItBtn = page.getByRole('button', { name: /Got it/i });
+    await gotItBtn.click();
+    await expect(shortcutsModal).not.toBeVisible();
+  });
+
+  test('navigates rows with j / k keys and selects with x key', async ({ page }) => {
+    await page.locator('.brand-title').click();
+    await page.keyboard.press('j');
+
+    // First row is focused, select with x
+    await page.keyboard.press('x');
+    await expect(page.getByRole('region', { name: /Bulk actions for selected issues/i })).toBeVisible();
+
+    // Deselect with Escape
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('region', { name: /Bulk actions for selected issues/i })).not.toBeVisible();
+  });
+
+  test('displays dashboard summary metrics cards and updates view with tabs', async ({ page }) => {
+    await expect(page.getByRole('region', { name: /Issue board summary statistics/i })).toBeVisible();
+    await expect(page.getByText('Total Issues')).toBeVisible();
+
+    // Switch to Backlog view
+    const backlogTab = page.getByRole('tab', { name: /Backlog/i });
+    await backlogTab.click();
+    await expect(page.getByText('Add CSV export for filtered issue datasets').first()).toBeVisible();
+  });
 });
