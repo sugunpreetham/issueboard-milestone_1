@@ -104,7 +104,18 @@ export const App: React.FC = () => {
       />
 
       <main id="main-content" role="main">
-        <DashboardStats allIssues={allIssues} />
+        <DashboardStats
+          allIssues={allIssues}
+          onQuickFilter={(type) => {
+            if (type === 'all') {
+              resetFilters();
+            } else if (type === 'in_progress' || type === 'in_review' || type === 'done') {
+              setFilter('status', type);
+            } else if (type === 'urgent') {
+              setFilter('priority', 'urgent');
+            }
+          }}
+        />
 
         <ViewTabs
           activeView={filters.view}
