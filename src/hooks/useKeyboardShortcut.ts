@@ -25,12 +25,12 @@ export function useKeyboardShortcut({
         target.tagName === 'SELECT' ||
         target.isContentEditable;
 
-      if ((e.key === '/' || e.code === 'Slash') && !isInput && !isModalOpen) {
-        e.preventDefault();
-        onSearchFocus();
-      } else if (e.key === '?' && !isInput && !isModalOpen && onOpenShortcuts) {
+      if ((e.key === '?' || (e.shiftKey && e.code === 'Slash')) && !isInput && !isModalOpen && onOpenShortcuts) {
         e.preventDefault();
         onOpenShortcuts();
+      } else if ((e.key === '/' || (!e.shiftKey && e.code === 'Slash')) && !isInput && !isModalOpen) {
+        e.preventDefault();
+        onSearchFocus();
       } else if (e.key === 'Escape' && !isModalOpen && hasSelection) {
         e.preventDefault();
         onClearSelection();

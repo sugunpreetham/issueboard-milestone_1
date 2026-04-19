@@ -78,12 +78,12 @@ test.describe('IssueBoard E2E User Journeys', () => {
 
   test('opens and closes keyboard shortcuts modal using question mark (?) key', async ({ page }) => {
     await page.locator('.brand-title').click();
-    await page.keyboard.press('?');
+    await page.keyboard.press('Shift+Slash');
 
     const shortcutsModal = page.getByRole('dialog', { name: /Keyboard Shortcuts/i });
     await expect(shortcutsModal).toBeVisible();
 
-    const gotItBtn = page.getByRole('button', { name: /Got it/i });
+    const gotItBtn = page.getByRole('button', { name: /Close shortcuts modal/i });
     await gotItBtn.click();
     await expect(shortcutsModal).not.toBeVisible();
   });
