@@ -20,6 +20,27 @@ describe('Shortcuts Guide and Live Announcements', () => {
     expect(screen.queryByRole('dialog', { name: /Keyboard Shortcuts/i })).not.toBeInTheDocument();
   });
 
+  it('closes shortcuts modal when pressing escape key', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const helpBtn = screen.getByRole('button', { name: /View keyboard shortcuts/i });
+    await user.click(helpBtn);
+
+    expect(screen.getByRole('dialog', { name: /Keyboard Shortcuts/i })).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByRole('dialog', { name: /Keyboard Shortcuts/i })).not.toBeInTheDocument();
+  });
+
+  it('renders live announcer aria-live attribute correctly', async () => {
+    render(<App />);
+
+    const liveAnnouncer = screen.getByTestId('live-announcer');
+    expect(liveAnnouncer).toHaveAttribute('aria-live', 'polite');
+  });
+
   it('announces issue count in live region', async () => {
     render(<App />);
 
@@ -28,3 +49,4 @@ describe('Shortcuts Guide and Live Announcements', () => {
     });
   });
 });
+

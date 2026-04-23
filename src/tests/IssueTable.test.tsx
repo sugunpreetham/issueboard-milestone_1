@@ -63,4 +63,33 @@ describe('IssueTable Sorting and Rendering', () => {
 
     expect(statusHeader).toHaveAttribute('aria-sort', 'ascending');
   });
+
+  it('sorts by issue ID when clicking ID header', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const idHeader = screen.getByRole('columnheader', { name: /^ID/i });
+    await user.click(idHeader);
+
+    expect(idHeader).toHaveAttribute('aria-sort', 'ascending');
+  });
+
+  it('sorts by assignee when clicking Assignee header', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fix race condition in OAuth2 token refresh workflow')[0]).toBeInTheDocument();
+    });
+
+    const assigneeHeader = screen.getByRole('columnheader', { name: /Assignee/i });
+    await user.click(assigneeHeader);
+
+    expect(assigneeHeader).toHaveAttribute('aria-sort', 'ascending');
+  });
 });
+
