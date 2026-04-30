@@ -1,0 +1,68 @@
+import { LabelDefinition } from '../types/label';
+
+export const INITIAL_LABELS: LabelDefinition[] = [
+  {
+    id: 'lbl-bug',
+    name: 'bug',
+    category: 'type',
+    color: '#ef4444',
+    description: 'Software defects or unexpected behavioral deviations',
+    usageCount: 8,
+  },
+  {
+    id: 'lbl-feature',
+    name: 'feature',
+    category: 'type',
+    color: '#3b82f6',
+    description: 'New user-facing functionality or enhancement requests',
+    usageCount: 12,
+  },
+  {
+    id: 'lbl-security',
+    name: 'security',
+    category: 'priority',
+    color: '#dc2626',
+    description: 'Security vulnerabilities, encryption, or access controls',
+    usageCount: 4,
+  },
+  {
+    id: 'lbl-auth',
+    name: 'auth',
+    category: 'area',
+    color: '#8b5cf6',
+    description: 'Authentication, session management, and OAuth flows',
+    usageCount: 6,
+  },
+  {
+    id: 'lbl-performance',
+    name: 'performance',
+    category: 'area',
+    color: '#f59e0b',
+    description: 'Latency reduction, memory efficiency, and query tuning',
+    usageCount: 5,
+  },
+  {
+    id: 'lbl-a11y',
+    name: 'accessibility',
+    category: 'area',
+    color: '#10b981',
+    description: 'WCAG compliance, screen reader support, keyboard navigation',
+    usageCount: 7,
+  },
+  {
+    id: 'lbl-ui',
+    name: 'ui',
+    category: 'area',
+    color: '#ec4899',
+    description: 'User interface components, styling, and visual design',
+    usageCount: 9,
+  },
+  {
+    id: 'lbl-backend',
+    name: 'backend',
+    category: 'area',
+    color: '#6366f1',
+    description: 'API endpoints, database schemas, and background workers',
+    usageCount: 11,
+  },
+];

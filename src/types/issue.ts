@@ -59,3 +59,10 @@ export interface IssueStats {
   done: number;
   urgent: number;
 }
+
+// Type aliases
+export type IssueStatus = Status;
+export type IssuePriority = Priority;
+export type IssueActivity = Activity;
+export type ViewMode = 'table' | 'cards';
+
