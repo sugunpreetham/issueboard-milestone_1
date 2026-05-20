@@ -29,7 +29,6 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities }) => {
         return <Icon name="alert-triangle" size={12} />;
       case 'assignee_change':
         return <Icon name="user" size={12} />;
-      case 'milestone_change':
       case 'comment':
         return <Icon name="tag" size={12} />;
       default:

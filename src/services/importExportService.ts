@@ -32,7 +32,6 @@ export function exportIssuesToCSV(issues: Issue[]): string {
     'Assignee',
     'Labels',
     'Estimate',
-    'MilestoneId',
     'CreatedAt',
     'UpdatedAt',
   ];
@@ -46,7 +45,6 @@ export function exportIssuesToCSV(issues: Issue[]): string {
     escapeCSVField(issue.assignee ? issue.assignee.name : ''),
     escapeCSVField(issue.labels.join(';')),
     escapeCSVField(issue.estimate),
-    escapeCSVField(issue.milestoneId),
     escapeCSVField(issue.createdAt),
     escapeCSVField(issue.updatedAt),
   ]);
@@ -139,7 +137,6 @@ export function importIssuesFromCSV(csvContent: string, currentIssueCount = 0): 
   const assigneeIdx = headers.indexOf('assignee');
   const labelsIdx = headers.indexOf('labels');
   const estimateIdx = headers.indexOf('estimate');
-  const milestoneIdx = headers.indexOf('milestoneid');
 
   const validStatuses: Status[] = ['backlog', 'todo', 'in_progress', 'in_review', 'done', 'canceled'];
   const validPriorities: Priority[] = ['urgent', 'high', 'medium', 'low'];
@@ -174,7 +171,6 @@ export function importIssuesFromCSV(csvContent: string, currentIssueCount = 0): 
 
     const labels = labelsIdx !== -1 && row[labelsIdx] ? row[labelsIdx].split(';').map((l) => l.trim()).filter(Boolean) : [];
     const estimate = estimateIdx !== -1 && row[estimateIdx] ? parseInt(row[estimateIdx], 10) || 0 : 0;
-    const milestoneId = milestoneIdx !== -1 && row[milestoneIdx]?.trim() ? row[milestoneIdx].trim() : null;
 
     const issueId = `ISSUE-${100 + currentIssueCount + importedIssues.length + 1}`;
     const now = new Date().toISOString();
@@ -196,7 +192,6 @@ export function importIssuesFromCSV(csvContent: string, currentIssueCount = 0): 
       assignee,
       labels,
       estimate,
-      milestoneId,
       createdAt: now,
       updatedAt: now,
       activities: [activity],
@@ -275,7 +270,6 @@ export function importIssuesFromJSON(jsonString: string): ImportResult {
         assignee,
         labels: Array.isArray(item.labels) ? item.labels : [],
         estimate: typeof item.estimate === 'number' ? item.estimate : 0,
-        milestoneId: item.milestoneId || null,
         createdAt: item.createdAt || new Date().toISOString(),
         updatedAt: item.updatedAt || new Date().toISOString(),
         activities: Array.isArray(item.activities) ? item.activities : [],
