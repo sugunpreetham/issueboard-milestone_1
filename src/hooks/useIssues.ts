@@ -10,6 +10,7 @@ import {
   ViewTabType,
 } from '../types/issue';
 import { INITIAL_ISSUES, CURRENT_USER } from '../data/mockIssues';
+import { parseFilterExpression, evaluateAST } from '../utils/filterExpressionParser';
 
 const PRIORITY_WEIGHTS: Record<Priority, number> = {
   urgent: 4,
@@ -146,24 +147,53 @@ export function useIssues() {
           }
         }
 
-        // 2. Multi-token search query matching ID, title, description, labels, or assignee
+        // 2. Multi-token search query matching ID, title, description, labels, or assignee (with boolean AST support)
         if (filters.searchQuery.trim()) {
-          const queryTokens = filters.searchQuery.toLowerCase().trim().split(/\s+/);
-          const searchableText = [
-            issue.id,
-            issue.title,
-            issue.description,
-            ...issue.labels,
-            issue.assignee?.name || '',
-          ]
-            .join(' ')
-            .toLowerCase();
+          const rawQuery = filters.searchQuery.trim();
+          const hasAdvancedSyntax =
+            rawQuery.includes(':') ||
+            /\b(AND|OR|NOT)\b/i.test(rawQuery) ||
+            rawQuery.includes('(') ||
+            rawQuery.startsWith('-');
 
-          const matchesAllTokens = queryTokens.every((token) =>
-            searchableText.includes(token)
-          );
-          if (!matchesAllTokens) {
-            return false;
+          if (hasAdvancedSyntax) {
+            const parsed = parseFilterExpression(rawQuery);
+            if (parsed.success && parsed.ast) {
+              if (!evaluateAST(parsed.ast, issue)) {
+                return false;
+              }
+            } else {
+              // Fallback to plain multi-token search on syntax error
+              const queryTokens = rawQuery.toLowerCase().split(/\s+/);
+              const searchableText = [
+                issue.id,
+                issue.title,
+                issue.description,
+                ...issue.labels,
+                issue.assignee?.name || '',
+              ]
+                .join(' ')
+                .toLowerCase();
+
+              if (!queryTokens.every((token) => searchableText.includes(token))) {
+                return false;
+              }
+            }
+          } else {
+            const queryTokens = rawQuery.toLowerCase().split(/\s+/);
+            const searchableText = [
+              issue.id,
+              issue.title,
+              issue.description,
+              ...issue.labels,
+              issue.assignee?.name || '',
+            ]
+              .join(' ')
+              .toLowerCase();
+
+            if (!queryTokens.every((token) => searchableText.includes(token))) {
+              return false;
+            }
           }
         }
 

@@ -329,4 +329,32 @@ describe('useIssues Hook', () => {
 
     // Test passes without unhandled rejection or unmounted component state updates
   });
+
+  it('filters issues using boolean AST query expression', () => {
+    const { result } = renderHook(() => useIssues());
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    act(() => {
+      result.current.setFilter('searchQuery', 'priority:urgent AND status:todo');
+    });
+
+    expect(result.current.issues.every((i) => i.priority === 'urgent' && i.status === 'todo')).toBe(true);
+  });
+
+  it('filters issues using negated field expressions', () => {
+    const { result } = renderHook(() => useIssues());
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    act(() => {
+      result.current.setFilter('searchQuery', '-status:done');
+    });
+
+    expect(result.current.issues.every((i) => i.status !== 'done')).toBe(true);
+  });
 });
