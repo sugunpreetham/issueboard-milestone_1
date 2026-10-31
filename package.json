@@ -1,7 +1,25 @@
 {
   "name": "issue-board",
-  "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "High-performance, accessible issue tracker with zero external UI dependencies, offline mutation sync, cryptographic audit logging, and AST query parsing.",
+  "author": "Sugun Preetham Devabarkina <sugunpreetham07@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sugunpreetham/issueboard-milestone_1.git"
+  },
+  "homepage": "https://github.com/sugunpreetham/issueboard-milestone_1#readme",
+  "keywords": [
+    "react",
+    "typescript",
+    "issue-tracker",
+    "ast-parser",
+    "offline-first",
+    "state-machine",
+    "audit-trail",
+    "wcag-aa",
+    "zero-dependencies"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +27,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "bench": "vitest run src/tests/benchmarks.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
     "e2e": "playwright test"
