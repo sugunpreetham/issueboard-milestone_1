@@ -3,7 +3,7 @@ import { StorageService, globalStorage } from './storageService';
 export interface QueuedMutation {
   id: string;
   type: 'create_issue' | 'update_status' | 'add_comment' | 'assign_issue';
-  payload: Record<string, any>;
+  payload: Record<string, unknown>;
   createdAt: string;
   retryCount: number;
   maxRetries: number;
@@ -23,7 +23,7 @@ export class OfflineSyncQueue {
 
   public enqueue(
     type: QueuedMutation['type'],
-    payload: Record<string, any>,
+    payload: Record<string, unknown>,
     maxRetries: number = 3
   ): QueuedMutation {
     const mutation: QueuedMutation = {

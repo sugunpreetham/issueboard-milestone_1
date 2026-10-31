@@ -5,7 +5,7 @@ export interface CustomFieldsEditorProps {
   definitions: CustomFieldDefinition[];
   values: CustomFieldValues;
   errors?: Record<string, string>;
-  onChange: (key: string, value: any) => void;
+  onChange: (key: string, value: unknown) => void;
   disabled?: boolean;
 }
 
@@ -19,7 +19,7 @@ export const CustomFieldsEditor: React.FC<CustomFieldsEditorProps> = ({
   if (!definitions || definitions.length === 0) return null;
 
   const renderFieldInput = (def: CustomFieldDefinition) => {
-    const value = values[def.key] ?? def.defaultValue ?? '';
+    const value = (values[def.key] ?? def.defaultValue ?? '') as string | number;
     const fieldError = errors[def.key];
 
     switch (def.type) {

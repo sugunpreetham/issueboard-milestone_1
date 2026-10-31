@@ -6,7 +6,7 @@ export interface CustomFieldDefinition {
   key: string;
   type: CustomFieldType;
   required?: boolean;
-  defaultValue?: any;
+  defaultValue?: unknown;
   options?: string[]; // For select type
   min?: number;
   max?: number;
@@ -14,7 +14,7 @@ export interface CustomFieldDefinition {
   description?: string;
 }
 
-export type CustomFieldValues = Record<string, any>;
+export type CustomFieldValues = Record<string, unknown>;
 
 export interface CustomFieldValidationResult {
   isValid: boolean;

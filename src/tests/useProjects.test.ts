@@ -24,7 +24,7 @@ describe('useProjects Hook', () => {
   it('creates new project with validation', () => {
     const { result } = renderHook(() => useProjects());
 
-    let createRes: any;
+    let createRes!: ReturnType<typeof result.current.createProject>;
     act(() => {
       createRes = result.current.createProject({
         name: 'New Mobile App',
@@ -49,7 +49,7 @@ describe('useProjects Hook', () => {
   it('rejects duplicate project key creation', () => {
     const { result } = renderHook(() => useProjects());
 
-    let createRes: any;
+    let createRes!: ReturnType<typeof result.current.createProject>;
     act(() => {
       createRes = result.current.createProject({
         name: 'Duplicate Core',
@@ -68,6 +68,6 @@ describe('useProjects Hook', () => {
     });
 
     expect(createRes.success).toBe(false);
-    expect(createRes.errors[0]).toContain('already exists');
+    expect(createRes.errors![0]).toContain('already exists');
   });
 });

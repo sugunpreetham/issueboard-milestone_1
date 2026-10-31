@@ -44,7 +44,7 @@ export function applyMacroToIssue(
   issue: Issue,
   authorName: string = 'Macro Engine'
 ): Issue {
-  let updated: Issue = {
+  const updated: Issue = {
     ...issue,
     labels: [...issue.labels],
     activities: [...issue.activities],

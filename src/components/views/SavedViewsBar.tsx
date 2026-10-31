@@ -1,6 +1,6 @@
 import React from 'react';
 import { SavedView } from '../../types/savedView';
-import { Icon } from '../common/Icon';
+import { Icon, IconName } from '../common/Icon';
 
 export interface SavedViewsBarProps {
   savedViews: SavedView[];
@@ -28,7 +28,7 @@ export const SavedViewsBar: React.FC<SavedViewsBarProps> = ({
               className={`saved-view-chip ${isActive ? 'active' : ''}`}
               onClick={() => onSelectView(view.id)}
             >
-              <Icon name={(view.icon as any) || 'layers'} size={13} />
+              <Icon name={(view.icon as IconName) || 'layers'} size={13} />
               <span>{view.name}</span>
             </button>
           );

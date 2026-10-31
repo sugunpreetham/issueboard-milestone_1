@@ -95,7 +95,7 @@ export const LabelManagerModal: React.FC<LabelManagerModalProps> = ({
                   id="new-label-cat"
                   className="select-input"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as any)}
+                  onChange={(e) => setCategory(e.target.value as 'type' | 'area' | 'priority' | 'custom')}
                 >
                   <option value="type">Type</option>
                   <option value="area">Area</option>

@@ -21,7 +21,7 @@ export interface WebhookDeliveryLog {
   id: string;
   endpointId: string;
   event: WebhookEvent;
-  payload: Record<string, any>;
+  payload: Record<string, unknown>;
   statusCode: number;
   success: boolean;
   durationMs: number;

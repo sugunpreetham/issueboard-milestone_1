@@ -39,7 +39,7 @@ export class AuditLogStore {
     severity?: AuditSeverity;
     targetId?: string;
     targetType?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
   }): AuditLogEntry {
     const timestamp = new Date().toISOString();
     const hash = computeAuditHash(

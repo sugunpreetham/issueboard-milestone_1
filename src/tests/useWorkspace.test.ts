@@ -31,7 +31,7 @@ describe('useWorkspace Hook', () => {
   it('creates new workspace with valid slug and limits', () => {
     const { result } = renderHook(() => useWorkspace());
 
-    let createRes: any;
+    let createRes!: ReturnType<typeof result.current.createWorkspace>;
     act(() => {
       createRes = result.current.createWorkspace('Mobile Team', 'mobile-team', 'team');
     });
@@ -43,7 +43,7 @@ describe('useWorkspace Hook', () => {
   it('rejects duplicate workspace slug creation', () => {
     const { result } = renderHook(() => useWorkspace());
 
-    let createRes: any;
+    let createRes!: ReturnType<typeof result.current.createWorkspace>;
     act(() => {
       createRes = result.current.createWorkspace('Duplicate Eng', 'eng-workspace', 'team');
     });

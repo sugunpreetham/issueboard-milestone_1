@@ -67,7 +67,7 @@ export const AuditLogViewerModal: React.FC<AuditLogViewerModalProps> = ({
           <select
             className="form-select text-xs"
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value as any)}
+            onChange={(e) => setSelectedCategory(e.target.value as AuditCategory | 'all')}
           >
             <option value="all">All Categories</option>
             <option value="auth">Authentication</option>
@@ -81,7 +81,7 @@ export const AuditLogViewerModal: React.FC<AuditLogViewerModalProps> = ({
           <select
             className="form-select text-xs"
             value={selectedSeverity}
-            onChange={(e) => setSelectedSeverity(e.target.value as any)}
+            onChange={(e) => setSelectedSeverity(e.target.value as AuditSeverity | 'all')}
           >
             <option value="all">All Severities</option>
             <option value="info">Info</option>

@@ -18,7 +18,7 @@ export interface AuditLogEntry {
   targetType?: string;
   ipAddress?: string;
   timestamp: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   previousHash?: string;
   hash: string;
 }

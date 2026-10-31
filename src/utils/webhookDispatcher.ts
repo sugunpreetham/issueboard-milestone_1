@@ -55,7 +55,7 @@ export class WebhookDispatcher {
 
   public dispatchEvent(
     event: WebhookEvent,
-    payloadData: Record<string, any>
+    payloadData: Record<string, unknown>
   ): WebhookDeliveryLog[] {
     const subscribers = this.endpoints.filter(
       (ep) => ep.isActive && ep.events.includes(event)

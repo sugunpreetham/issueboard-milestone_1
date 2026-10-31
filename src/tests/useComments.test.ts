@@ -12,7 +12,7 @@ describe('useComments Hook', () => {
   it('adds a new comment and parses user mentions', () => {
     const { result } = renderHook(() => useComments());
 
-    let addRes: any;
+    let addRes!: ReturnType<typeof result.current.addComment>;
     act(() => {
       addRes = result.current.addComment(
         'ISSUE-101',
@@ -23,7 +23,7 @@ describe('useComments Hook', () => {
     });
 
     expect(addRes.success).toBe(true);
-    expect(addRes.comment.mentions).toEqual(['alex.rivera']);
+    expect(addRes.comment!.mentions).toEqual(['alex.rivera']);
 
     const issueComments = result.current.getCommentsForIssue('ISSUE-101');
     expect(issueComments.some((c) => c.content.includes('Hey @alex.rivera'))).toBe(true);

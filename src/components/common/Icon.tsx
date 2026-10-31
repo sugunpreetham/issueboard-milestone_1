@@ -1,7 +1,6 @@
 import React from 'react';
 
-interface IconProps {
-  name:
+export type IconName =
     | 'search'
     | 'sun'
     | 'moon'
@@ -23,6 +22,9 @@ interface IconProps {
     | 'shield'
     | 'zap'
     | 'box';
+
+interface IconProps {
+  name: IconName;
   size?: number;
   className?: string;
   'aria-hidden'?: boolean | 'true' | 'false';
